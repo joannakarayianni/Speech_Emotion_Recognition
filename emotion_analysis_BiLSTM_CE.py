@@ -7,10 +7,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, f1_score
 
-# Checking device, use CUDA if available
+# Checking device, I have a mac so I have cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# print()device
 
-# Setting seed for reproducibility
+# Setting seed for reproducibility of the code
 torch.manual_seed(42)
 
 # Paths to our datasets
@@ -40,8 +41,8 @@ class DLDataset(Dataset):
     
     def __getitem__(self, idx):
         sample = self.data.iloc[idx]
-        valence = torch.tensor(sample['valence'], dtype=torch.long)  # Changed to long for CrossEntropyLoss
-        activation = torch.tensor(sample['activation'], dtype=torch.long)  # Changed to long for CrossEntropyLoss
+        valence = torch.tensor(sample['valence'], dtype=torch.long)  
+        activation = torch.tensor(sample['activation'], dtype=torch.long)  
         features = torch.tensor(sample['features'], dtype=torch.float32)
         
         return valence, activation, features
@@ -58,11 +59,12 @@ class DLDataset(Dataset):
 train_dataset = DLDataset(train_df)
 validation_dataset = DLDataset(validation_df)
 
-# Access and print features of the entire train dataset
+# Accessing and printing features of the entire train dataset
 """ print("Features of the train dataset:")
 for idx, features in enumerate(train_dataset.features):
     print(f"Sample {idx}: Features: {features}") """
 
+# collating function to use with dataloader
 def collate_fn_pad_sequences(batch):
     # Sorting batch by sequence length (descending)
     batch = sorted(batch, key=lambda x: x[-1].size(0), reverse=True)
@@ -80,8 +82,8 @@ def collate_fn_pad_sequences(batch):
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, collate_fn=collate_fn_pad_sequences)
 validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=False, collate_fn=collate_fn_pad_sequences)
 
-# Defining the LSTM classifier
-class ClassifierLSTM(torch.nn.Module):
+# Defining the Bi-LSTM classifier
+class ClassifierBiLSTM(torch.nn.Module):
     def __init__(self, input_size: int, hidden_size: int, num_classes: int, num_layers: int = 2, bidirectional: bool = True):
         super().__init__()
         dropout = 0.5 if num_layers > 1 else 0  # Adjust dropout based on num_layers
@@ -91,7 +93,7 @@ class ClassifierLSTM(torch.nn.Module):
     def forward(self, x):
         # Forward LSTM
         output, (hn, cn) = self.lstm(x)
-        # If bidirectional, concatenate the last hidden states from both directions
+        # For bidirectional, concatenating the last hidden states from both directions
         if self.lstm.bidirectional:
             hn = torch.cat((hn[-2], hn[-1]), dim=1)
         else:
@@ -100,16 +102,16 @@ class ClassifierLSTM(torch.nn.Module):
         outputs = self.fc(hn)
         return outputs
 
-# Initialize the model, loss function, and optimizer
+# Initializing the model, loss function, and optimizer (Cross Entropy & Adam)
 input_size = train_dataset[0][-1].shape[1]  # Assuming features have shape [sequence_length, input_size]
 hidden_size = 128
-num_layers = 2  # Number of LSTM layers
-num_classes = 4
-model = ClassifierLSTM(input_size=input_size, hidden_size=hidden_size, num_classes=num_classes, num_layers=num_layers, bidirectional=True).to(device)
+num_layers = 2  
+num_classes = 4 # we have 4 classes
+model = ClassifierBiLSTM(input_size=input_size, hidden_size=hidden_size, num_classes=num_classes, num_layers=num_layers, bidirectional=True).to(device)
 criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0005, weight_decay=1e-5)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0005, weight_decay=1e-5) # learning rate and weight decay
 
-# Training function
+# Now we create the training function
 def train_model(model, train_loader, criterion, optimizer, device):
     model.train()
     total_loss = 0
@@ -172,14 +174,14 @@ def validate_model(model, validation_loader, criterion, device):
     return avg_loss, accuracy, f1
 
 
-# Initialize lists to store loss and accuracy for each epoch
+# Initializing lists to store loss and accuracy for each epoch
 train_losses = []
 train_accuracies = []
 train_f1s = []
 validation_losses = []
 validation_accuracies = []
 validation_f1s = []
-
+#*************************************************************** Training ***************************************************************
 # Training loop
 num_epochs = 30
 for epoch in range(num_epochs):
@@ -193,8 +195,10 @@ for epoch in range(num_epochs):
     validation_accuracies.append(validation_accuracy)
     validation_f1s.append(validation_f1)
     
-    print(f"Epoch {epoch+1}/{num_epochs}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Train F1: {train_f1:.4f}, Validation Loss: {validation_loss:.4f}, Validation Accuracy: {validation_accuracy:.4f}, Validation F1: {validation_f1:.4f}")
+    print(f"Epoch {epoch+1}/{num_epochs}, Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Train F1: {train_f1:.4f}, 
+          Validation Loss: {validation_loss:.4f}, Validation Accuracy: {validation_accuracy:.4f}, Validation F1: {validation_f1:.4f}")
 
+# ***************************************************** Plotting the results *****************************************************
 # Plotting the learning curve
 plt.figure(figsize=(12, 4))
 
