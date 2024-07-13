@@ -1,0 +1,56 @@
+#################### Bi-directional LSTM - Cross Entropy ####################
+
+## Parameters
+-input_size: feature dimension of the dataset (train_dataset[0][-1].shape[1])
+-hidden_size: number of features in the hidden state of the LSTM (128)
+-num_layers: number of recurrent layers in the LSTM (2)
+-num_classes: number of output classes for the final classification (4)
+
+## Components
+#LSTM Layer
+-Dropout: 0.5 (since num_layers > 1)
+-batch_first: True (indicating the input tensor has batch size as the first dimension)
+#Fully Connected Layer (fc)
+-Input size: hidden_size * 2 (if bidirectional) - 128 * 2 or hidden_size (if not bidirectional) - 128
+-Output size: num_classes (4)
+
+## Hyperparameters
+-Loss Function: torch.nn.CrossEntropyLoss()
+-Optimizer:  torch.optim.Adam
+-Learning Rate (lr): 0.0005
+-Weight Decay: 1e-5
+-Batch size: 32
+-Epochs: 20
+-Random Seeds: 42
+
+********************************************************************** RESULTS **********************************************************************
+Epoch 1/30, Train Loss: 1.2789, Train Accuracy: 0.4055, Train F1: 0.2511, Validation Loss: 1.2629, Validation Accuracy: 0.4231, Validation F1: 0.2516
+Epoch 2/30, Train Loss: 1.2694, Train Accuracy: 0.4095, Train F1: 0.2603, Validation Loss: 1.2524, Validation Accuracy: 0.4243, Validation F1: 0.2570
+Epoch 3/30, Train Loss: 1.2564, Train Accuracy: 0.4094, Train F1: 0.2831, Validation Loss: 1.2108, Validation Accuracy: 0.4231, Validation F1: 0.2516
+Epoch 4/30, Train Loss: 1.2544, Train Accuracy: 0.4115, Train F1: 0.2878, Validation Loss: 1.2300, Validation Accuracy: 0.4605, Validation F1: 0.3247
+Epoch 5/30, Train Loss: 1.2122, Train Accuracy: 0.4400, Train F1: 0.3130, Validation Loss: 1.1858, Validation Accuracy: 0.4698, Validation F1: 0.3453
+Epoch 6/30, Train Loss: 1.1897, Train Accuracy: 0.4412, Train F1: 0.3354, Validation Loss: 1.1462, Validation Accuracy: 0.4773, Validation F1: 0.3694
+Epoch 7/30, Train Loss: 1.1681, Train Accuracy: 0.4555, Train F1: 0.3631, Validation Loss: 1.1553, Validation Accuracy: 0.4731, Validation F1: 0.3641
+Epoch 8/30, Train Loss: 1.1659, Train Accuracy: 0.4558, Train F1: 0.3769, Validation Loss: 1.1407, Validation Accuracy: 0.4635, Validation F1: 0.4100
+Epoch 9/30, Train Loss: 1.1545, Train Accuracy: 0.4587, Train F1: 0.3853, Validation Loss: 1.1441, Validation Accuracy: 0.4838, Validation F1: 0.3865
+Epoch 10/30, Train Loss: 1.1578, Train Accuracy: 0.4597, Train F1: 0.3913, Validation Loss: 1.1231, Validation Accuracy: 0.4752, Validation F1: 0.3706
+Epoch 11/30, Train Loss: 1.1425, Train Accuracy: 0.4672, Train F1: 0.4015, Validation Loss: 1.1154, Validation Accuracy: 0.4877, Validation F1: 0.4376
+Epoch 12/30, Train Loss: 1.1338, Train Accuracy: 0.4674, Train F1: 0.4098, Validation Loss: 1.1314, Validation Accuracy: 0.4853, Validation F1: 0.3847
+Epoch 13/30, Train Loss: 1.1352, Train Accuracy: 0.4696, Train F1: 0.4164, Validation Loss: 1.1204, Validation Accuracy: 0.4659, Validation F1: 0.4383
+Epoch 14/30, Train Loss: 1.1342, Train Accuracy: 0.4696, Train F1: 0.4187, Validation Loss: 1.1093, Validation Accuracy: 0.4814, Validation F1: 0.4493
+Epoch 15/30, Train Loss: 1.1281, Train Accuracy: 0.4728, Train F1: 0.4236, Validation Loss: 1.1018, Validation Accuracy: 0.4886, Validation F1: 0.4396
+Epoch 16/30, Train Loss: 1.1252, Train Accuracy: 0.4732, Train F1: 0.4268, Validation Loss: 1.0857, Validation Accuracy: 0.5009, Validation F1: 0.4533
+Epoch 17/30, Train Loss: 1.1207, Train Accuracy: 0.4785, Train F1: 0.4353, Validation Loss: 1.1233, Validation Accuracy: 0.4907, Validation F1: 0.4331
+Epoch 18/30, Train Loss: 1.1180, Train Accuracy: 0.4813, Train F1: 0.4438, Validation Loss: 1.0919, Validation Accuracy: 0.4946, Validation F1: 0.4316
+Epoch 19/30, Train Loss: 1.1122, Train Accuracy: 0.4868, Train F1: 0.4444, Validation Loss: 1.1082, Validation Accuracy: 0.4803, Validation F1: 0.4639
+Epoch 20/30, Train Loss: 1.1088, Train Accuracy: 0.4853, Train F1: 0.4491, Validation Loss: 1.0818, Validation Accuracy: 0.4976, Validation F1: 0.4739
+Epoch 21/30, Train Loss: 1.1074, Train Accuracy: 0.4853, Train F1: 0.4499, Validation Loss: 1.0707, Validation Accuracy: 0.5042, Validation F1: 0.4641
+Epoch 22/30, Train Loss: 1.1023, Train Accuracy: 0.4887, Train F1: 0.4592, Validation Loss: 1.0723, Validation Accuracy: 0.4997, Validation F1: 0.4599
+Epoch 23/30, Train Loss: 1.0944, Train Accuracy: 0.4960, Train F1: 0.4662, Validation Loss: 1.0622, Validation Accuracy: 0.5126, Validation F1: 0.4818
+Epoch 24/30, Train Loss: 1.0941, Train Accuracy: 0.4981, Train F1: 0.4716, Validation Loss: 1.0671, Validation Accuracy: 0.5156, Validation F1: 0.4987
+Epoch 25/30, Train Loss: 1.0879, Train Accuracy: 0.5005, Train F1: 0.4727, Validation Loss: 1.0775, Validation Accuracy: 0.5042, Validation F1: 0.4840
+Epoch 26/30, Train Loss: 1.0851, Train Accuracy: 0.5009, Train F1: 0.4716, Validation Loss: 1.0742, Validation Accuracy: 0.5015, Validation F1: 0.4867
+Epoch 27/30, Train Loss: 1.0818, Train Accuracy: 0.5055, Train F1: 0.4804, Validation Loss: 1.0542, Validation Accuracy: 0.5269, Validation F1: 0.5010
+Epoch 28/30, Train Loss: 1.0871, Train Accuracy: 0.5006, Train F1: 0.4768, Validation Loss: 1.1418, Validation Accuracy: 0.4779, Validation F1: 0.4908
+Epoch 29/30, Train Loss: 1.0760, Train Accuracy: 0.5035, Train F1: 0.4824, Validation Loss: 1.0503, Validation Accuracy: 0.5296, Validation F1: 0.4890
+Epoch 30/30, Train Loss: 1.0695, Train Accuracy: 0.5145, Train F1: 0.4936, Validation Loss: 1.0652, Validation Accuracy: 0.5132, Validation F1: 0.5158
