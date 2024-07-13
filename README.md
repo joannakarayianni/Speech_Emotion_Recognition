@@ -11,6 +11,8 @@
 
 • I used a Bi-LSTM (Bidirectional Long Short-Term Memory) model for the emotion classification. The model is trained to predict valence and activation states from the given features. The datasets used includes training, validation, and testing splits in JSON format.
 
+P.S. This is a work in progress. My results were relatively average so I want to implement new algorithms and methods that will perform better. I also trained for a few number of epochs because of my device's limitations and the time needed for the training.
+
 # Installation 
 ``` git clone https://github.com/joannakaragianni/speech_emotion_recognition.git ```
 
