@@ -28,4 +28,21 @@
 
 • Run file:
 
-``` python3 ./scripts/emotion_analysis_BiLSTM_CE.py ```
+``` python3 ./emotion_analysis_BiLSTM_CE.py ```
+# Datasets 
+The datasets used in this project are proprietary and owned by the university, hence they are not included in this repository.
+The format was like this: 
+```
+{
+"0": {
+            "valence": 0,
+"activation": 1,
+            "features": [[5.502810676891276, 5.389630715979907, ...], [...], ...]
+            },
+        "1": {
+            "valence": 1,
+            "activation": 1,
+            "features": [[3.502810676891276, 5.389630715979907, ...], [...], ...]
+            },
+...
+} ```
