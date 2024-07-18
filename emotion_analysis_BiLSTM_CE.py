@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, f1_score
 
 # Checking device, I have a mac so I have cpu
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# print()device
+# print(device)
 
 # Setting seed for reproducibility of the code
 torch.manual_seed(42)
